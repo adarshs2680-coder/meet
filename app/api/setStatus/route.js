@@ -65,7 +65,7 @@ export async function POST(req) {
       const newState = {
         isOnline: body.isOnline,
         currentUser: null,
-        currentUserEmail: null,
+        currentUserName: null,
         updatedAt: new Date().toISOString()
       }
       console.log('[API] New state to write:', newState)
@@ -106,7 +106,7 @@ export async function POST(req) {
       }
       await presenceRef.update({
         currentUser: decoded.uid,
-        currentUserEmail: decoded.email,
+        currentUserName: body.username || decoded.email,
         updatedAt: new Date().toISOString()
       })
       console.log('[API] User joined call')
@@ -121,7 +121,7 @@ export async function POST(req) {
       if (current.currentUser === decoded.uid) {
         await presenceRef.update({
           currentUser: null,
-          currentUserEmail: null,
+          currentUserName: null,
           updatedAt: new Date().toISOString()
         })
         console.log('[API] Call cleared')

@@ -1,12 +1,15 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { auth, db, messaging } from '../../firebase/clientApp'
 import { onAuthStateChanged, signOut } from 'firebase/auth'
 import { doc, onSnapshot } from 'firebase/firestore'
 import Link from 'next/link'
 
 export default function Dashboard() {
+  const router = useRouter()
   const [user, setUser] = useState(null)
+  const [username, setUsername] = useState('')
   const [presence, setPresence] = useState({ isOnline: false, currentUser: null })
   const [tokensRegistered, setTokensRegistered] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -14,6 +17,10 @@ export default function Dashboard() {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, u => {
       setUser(u)
+      if (u) {
+        const stored = localStorage.getItem(`username_${u.uid}`)
+        setUsername(stored || u.email)
+      }
       setLoading(false)
     })
     return () => unsub()
@@ -108,7 +115,7 @@ export default function Dashboard() {
   }
 
   async function joinCall() {
-    await callSetStatus({ action: 'tryJoin' })
+    await callSetStatus({ action: 'tryJoin', username })
     const meetLink = process.env.NEXT_PUBLIC_GOOGLE_MEET_LINK
     if (meetLink) {
       window.open(meetLink, '_blank')
@@ -122,6 +129,7 @@ export default function Dashboard() {
   async function logout() {
     try {
       await signOut(auth)
+      router.push('/')
     } catch (error) {
       console.error('Logout error:', error)
     }
@@ -172,7 +180,7 @@ export default function Dashboard() {
           <button onClick={logout} style={styles.logoutButton}>Sign Out</button>
         </div>
 
-        <p style={styles.text}>Signed in as: <strong>{user?.email}</strong></p>
+        <p style={styles.text}>Signed in as: <strong>{username}</strong></p>
 
         {/* Status Section */}
         <div style={styles.section}>
@@ -187,7 +195,7 @@ export default function Dashboard() {
           </div>
 
           {presence.currentUser ? (
-            <p style={styles.text}>Currently helping: <strong>{presence.currentUserEmail || presence.currentUser}</strong></p>
+            <p style={styles.text}>Currently helping: <strong>{presence.currentUserName || presence.currentUser}</strong></p>
           ) : (
             <p style={styles.text}>No one is in call</p>
           )}

@@ -7,31 +7,79 @@ import Link from 'next/link'
 export default function Home() {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [phone, setPhone] = useState('')
+  const [username, setUsername] = useState('')
+  const [showUsernameInput, setShowUsernameInput] = useState(false)
+  const [phoneVerified, setPhoneVerified] = useState(false)
+  const [error, setError] = useState('')
 
   useEffect(() => {
     const unsub = auth.onAuthStateChanged(u => {
       setUser(u)
+      if (u) {
+        // Load stored username
+        const stored = localStorage.getItem(`username_${u.uid}`)
+        if (stored) {
+          setUsername(stored)
+          setShowUsernameInput(false)
+        } else {
+          setShowUsernameInput(true)
+        }
+      }
       setLoading(false)
     })
     return () => unsub()
   }, [])
 
-  async function login() {
+  async function verifyPhone() {
+    setError('')
+    if (!phone.trim()) {
+      setError('Please enter a phone number')
+      return
+    }
+
+    // Get allowed phones from env
+    const allowedPhones = JSON.parse(process.env.NEXT_PUBLIC_ALLOWED_PHONES || '{}')
+    
+    if (!allowedPhones[phone]) {
+      setError('Phone number not authorized. Access denied.')
+      return
+    }
+
+    // Phone is valid - set the assigned username
+    const assignedUsername = allowedPhones[phone]
+    
+    // Sign in with Google (we still need Google auth for Firebase)
     try {
       const provider = new GoogleAuthProvider()
       await signInWithPopup(auth, provider)
+      // Store the phone number and assigned username
+      localStorage.setItem(`phone_${auth.currentUser.uid}`, phone)
+      localStorage.setItem(`username_${auth.currentUser.uid}`, assignedUsername)
+      setPhoneVerified(true)
+      setUsername(assignedUsername)
     } catch (error) {
       console.error('Login error:', error)
-      alert('Login failed: ' + error.message)
+      setError('Login failed: ' + error.message)
     }
   }
 
   async function logout() {
     try {
       await signOut(auth)
+      setPhoneVerified(false)
+      setPhone('')
+      setError('')
     } catch (error) {
       console.error('Logout error:', error)
     }
+  }
+
+  function saveUsername() {
+    // Username is auto-assigned from phone verification
+    // No need to manually save
+    localStorage.setItem(`username_${user.uid}`, username)
+    setShowUsernameInput(false)
   }
 
   if (loading) {
@@ -42,27 +90,49 @@ export default function Home() {
     <div style={styles.container}>
       <div style={styles.card}>
         <h1 style={styles.title}>Meet Presence</h1>
-        <p style={styles.subtitle}>One-on-one doubt clearing with presence indicator</p>
+        <p style={styles.subtitle}>Ask until there is no doubts lefts</p>
 
-        {!user ? (
+        {!user || !phoneVerified ? (
           <div style={styles.authSection}>
-            <p style={styles.text}>Please sign in with Google to continue.</p>
-            <button onClick={login} style={styles.primaryButton}>
-              Sign in with Google
+            <p style={styles.text}>Enter your phone number to access:</p>
+            <input
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="Enter phone number"
+              style={styles.input}
+              onKeyPress={(e) => e.key === 'Enter' && verifyPhone()}
+              disabled={user !== null}
+            />
+            {error && <p style={styles.error}>{error}</p>}
+            <button onClick={verifyPhone} style={styles.primaryButton} disabled={user !== null}>
+              {user ? 'Verifying...' : 'Verify & Continue'}
             </button>
           </div>
         ) : (
           <div style={styles.authSection}>
-            <p style={styles.text}>Signed in as:</p>
-            <p style={styles.email}>{user.email}</p>
-            <div style={styles.buttonGroup}>
-              <Link href="/dashboard">
-                <button style={styles.primaryButton}>Go to Dashboard</button>
-              </Link>
-              <button onClick={logout} style={styles.secondaryButton}>
-                Sign Out
-              </button>
-            </div>
+            {showUsernameInput ? (
+              <>
+                <p style={styles.text}>Your assigned username:</p>
+                <p style={styles.username}>{username}</p>
+                <button onClick={saveUsername} style={styles.primaryButton}>
+                  Confirm
+                </button>
+              </>
+            ) : (
+              <>
+                <p style={styles.text}>Welcome,</p>
+                <p style={styles.username}>{username}</p>
+                <div style={styles.buttonGroup}>
+                  <Link href="/dashboard">
+                    <button style={styles.primaryButton}>Go to Dashboard</button>
+                  </Link>
+                  <button onClick={logout} style={styles.secondaryButton}>
+                    Sign Out
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         )}
       </div>
@@ -108,6 +178,15 @@ const styles = {
     color: '#666',
     marginBottom: '10px',
   },
+  username: {
+    fontSize: '20px',
+    fontWeight: 'bold',
+    color: '#4285F4',
+    marginBottom: '20px',
+    padding: '10px',
+    backgroundColor: '#f0f7ff',
+    borderRadius: '4px',
+  },
   email: {
     fontSize: '16px',
     fontWeight: 'bold',
@@ -115,6 +194,24 @@ const styles = {
     marginBottom: '20px',
     padding: '10px',
     backgroundColor: '#f9f9f9',
+    borderRadius: '4px',
+  },
+  input: {
+    width: '100%',
+    padding: '12px',
+    fontSize: '16px',
+    border: '1px solid #ddd',
+    borderRadius: '4px',
+    marginBottom: '15px',
+    boxSizing: 'border-box',
+    fontFamily: 'system-ui, -apple-system, sans-serif',
+  },
+  error: {
+    color: '#d32f2f',
+    fontSize: '14px',
+    marginBottom: '15px',
+    padding: '10px',
+    backgroundColor: '#ffebee',
     borderRadius: '4px',
   },
   buttonGroup: {
