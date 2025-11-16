@@ -1,5 +1,5 @@
 import { initializeApp, getApps } from 'firebase/app'
-import { getAuth } from 'firebase/auth'
+import { getAuth, setPersistence, browserLocalPersistence } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 import { getMessaging, isSupported } from 'firebase/messaging'
 
@@ -37,3 +37,8 @@ export const db = getFirestore(app)
 export const messaging = typeof window !== 'undefined' && isSupported()
   ? getMessaging(app)
   : null
+
+  const auth = getAuth(app);
+setPersistence(auth, browserLocalPersistence);
+
+export { auth };
