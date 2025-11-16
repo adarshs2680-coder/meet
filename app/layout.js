@@ -1,3 +1,6 @@
+'use client'
+
+import { useEffect } from 'react'
 import './globals.css'
 
 export const metadata = {
@@ -6,10 +9,21 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/firebase-messaging-sw.js")
+        .then(() => console.log("Firebase SW registered"))
+        .catch((err) => console.error("SW registration failed:", err));
+    }
+  }, [])
+
   return (
     <html lang="en">
       <body>
-        <main style={{ padding: 0, fontFamily: 'system-ui, sans-serif' }}>{children}</main>
+        <main style={{ padding: 0, fontFamily: 'system-ui, sans-serif' }}>
+          {children}
+        </main>
       </body>
     </html>
   )
