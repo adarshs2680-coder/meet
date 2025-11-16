@@ -32,13 +32,12 @@ if (!getApps().length) {
 }
 
 export const auth = getAuth(app)
+setPersistence(auth, browserLocalPersistence)
+  .catch(err => console.error("Persistence error:", err))
 export const db = getFirestore(app)
 
 export const messaging = typeof window !== 'undefined' && isSupported()
   ? getMessaging(app)
   : null
 
-  const auth = getAuth(app);
-setPersistence(auth, browserLocalPersistence);
-
-export { auth };
+ 
