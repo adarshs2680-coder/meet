@@ -140,18 +140,23 @@ export default function Home() {
   )
 }
 
-const styles = {
+/*const styles = {
   container: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: '100vh',
-    backgroundColor: '#f5f5f5',
-    padding: '20px',
-    fontFamily: 'system-ui, -apple-system, sans-serif',
-  },
+  position: "relative",
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  minHeight: '100vh',
+  padding: '20px',
+
+  backgroundImage: 'linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("/bg-chalkboard1.png")',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+},
+
   card: {
-    backgroundColor: 'white',
+    backgroundColor: 'white', 
     borderRadius: '8px',
     padding: '40px',
     boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
@@ -241,5 +246,129 @@ const styles = {
     borderRadius: '4px',
     cursor: 'pointer',
     transition: 'background-color 0.3s',
+  },
+}*/
+const styles = {
+  container: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: "100vh",
+    padding: "20px",
+
+    // Chalkboard background
+    backgroundImage:
+      'linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url("/bg-chalkboard1.png")',
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+
+    fontFamily: "system-ui, -apple-system, sans-serif",
+    color: "#f5f5f5",
+  },
+
+  card: {
+    backdropFilter: "blur(6px)",
+    background: "rgba(20, 20, 20, 0.85)",
+    borderRadius: "12px",
+    padding: "40px",
+    boxShadow: "0 0 25px rgba(0,0,0,0.4)",
+    maxWidth: "480px",
+    width: "100%",
+    textAlign: "center",
+    border: "1px solid rgba(255,255,255,0.08)",
+  },
+
+  title: {
+    fontSize: "36px",
+    fontWeight: "bold",
+    marginBottom: "10px",
+    color: "#ffb735", // chalk yellow
+    textShadow: "0 0 8px rgba(255, 183, 53, 0.4)",
+  },
+
+  subtitle: {
+    fontSize: "15px",
+    color: "#d0d0d0",
+    marginBottom: "25px",
+    fontStyle: "italic",
+  },
+
+  authSection: {
+    marginTop: "15px",
+  },
+
+  text: {
+    fontSize: "16px",
+    color: "#e8e8e8",
+    marginBottom: "12px",
+  },
+
+  username: {
+    fontSize: "20px",
+    fontWeight: "bold",
+    color: "#77c7ff", // neon blue chalk
+    marginBottom: "20px",
+    padding: "10px",
+    backgroundColor: "rgba(255,255,255,0.05)",
+    borderRadius: "6px",
+    border: "1px dashed rgba(255,255,255,0.2)",
+    textShadow: "0 0 6px rgba(119, 199, 255, 0.5)",
+  },
+
+  input: {
+    width: "100%",
+    padding: "12px",
+    fontSize: "16px",
+    border: "1px solid rgba(255,255,255,0.2)",
+    borderRadius: "6px",
+    marginBottom: "15px",
+    backgroundColor: "rgba(255,255,255,0.1)",
+    color: "white",
+    boxSizing: "border-box",
+    outline: "none",
+  },
+
+  error: {
+    color: "#ff6b6b",
+    fontSize: "14px",
+    marginBottom: "15px",
+    padding: "10px",
+    backgroundColor: "rgba(255, 107, 107, 0.1)",
+    borderRadius: "6px",
+    border: "1px dashed rgba(255, 107, 107, 0.3)",
+  },
+
+  buttonGroup: {
+    display: "flex",
+    gap: "10px",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    marginTop: "10px",
+  },
+
+  primaryButton: {
+    padding: "12px 24px",
+    fontSize: "16px",
+    fontWeight: "bold",
+    backgroundColor: "#ffb735", // chalk yellow
+    color: "#1a1a1a",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+    transition: "0.25s",
+    boxShadow: "0 0 10px rgba(255,183,53,0.5)",
+  },
+
+  secondaryButton: {
+    padding: "12px 24px",
+    fontSize: "16px",
+    fontWeight: "bold",
+    backgroundColor: "rgba(255,255,255,0.1)",
+    color: "#fff",
+    border: "1px solid rgba(255,255,255,0.2)",
+    borderRadius: "6px",
+    cursor: "pointer",
+    transition: "0.25s",
   },
 }

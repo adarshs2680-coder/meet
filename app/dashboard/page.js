@@ -274,7 +274,7 @@ export default function Dashboard() {
   )
 }
 
-const styles = {
+/*const styles = {
   container: {
     display: 'flex',
     justifyContent: 'center',
@@ -400,5 +400,164 @@ const styles = {
     borderRadius: '4px',
     cursor: 'pointer',
     marginTop: '20px',
+  },
+}*/
+const styles = {
+  container: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: "100vh",
+    padding: "20px",
+
+    // Same chalkboard background as Home
+    backgroundImage:
+      'linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url("/bg-chalkboard1.png")',
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+
+    fontFamily: "system-ui, -apple-system, sans-serif",
+    color: "#f5f5f5",
+  },
+
+  card: {
+    backdropFilter: "blur(6px)",
+    background: "rgba(20, 20, 20, 0.85)",
+    borderRadius: "12px",
+    padding: "35px",
+    boxShadow: "0 0 25px rgba(0,0,0,0.45)",
+    maxWidth: "600px",
+    width: "100%",
+    border: "1px solid rgba(255,255,255,0.08)",
+  },
+
+  header: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "20px",
+  },
+
+  title: {
+    fontSize: "32px",
+    fontWeight: "bold",
+    margin: 0,
+    color: "#ffb735",
+    textShadow: "0 0 8px rgba(255,183,53,0.4)",
+  },
+
+  logoutButton: {
+    padding: "8px 16px",
+    backgroundColor: "rgba(255,255,255,0.13)",
+    color: "white",
+    border: "1px solid rgba(255,255,255,0.2)",
+    borderRadius: "6px",
+    cursor: "pointer",
+    fontWeight: "bold",
+    transition: "0.2s",
+  },
+
+  section: {
+    marginBottom: "25px",
+    padding: "18px",
+    backgroundColor: "rgba(255,255,255,0.03)",
+    borderRadius: "6px",
+    border: "1px solid rgba(255,255,255,0.12)",
+  },
+
+  sectionTitle: {
+    fontSize: "20px",
+    fontWeight: "bold",
+    marginBottom: "15px",
+    color: "#77c7ff",
+    textShadow: "0 0 6px rgba(119,199,255,0.4)",
+  },
+
+  text: {
+    fontSize: "15px",
+    color: "#e8e8e8",
+    margin: "10px 0",
+  },
+
+  statusBadge: {
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: "15px",
+  },
+
+  badge: {
+    padding: "10px 20px",
+    borderRadius: "25px",
+    color: "white",
+    fontWeight: "bold",
+    fontSize: "15px",
+    boxShadow: "0 0 10px rgba(255,255,255,0.2)",
+  },
+
+  primaryButton: {
+    width: "100%",
+    padding: "14px",
+    fontSize: "16px",
+    fontWeight: "bold",
+    backgroundColor: "#ffb735",
+    color: "#1a1a1a",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+    transition: "0.25s",
+    boxShadow: "0 0 10px rgba(255,183,53,0.45)",
+  },
+
+  secondaryButton: {
+    width: "100%",
+    padding: "12px",
+    fontSize: "15px",
+    fontWeight: "bold",
+    backgroundColor: "rgba(255,255,255,0.15)",
+    color: "white",
+    border: "1px solid rgba(255,255,255,0.25)",
+    borderRadius: "6px",
+    cursor: "pointer",
+    marginTop: "10px",
+  },
+
+  disabledButton: {
+    width: "100%",
+    padding: "12px",
+    fontSize: "16px",
+    fontWeight: "bold",
+    backgroundColor: "rgba(255,255,255,0.1)",
+    color: "#aaa",
+    border: "1px solid rgba(255,255,255,0.2)",
+    borderRadius: "6px",
+    cursor: "not-allowed",
+  },
+
+  notificationSection: {
+    marginTop: "15px",
+  },
+
+  link: {
+    display: "inline-block",
+    padding: "12px 20px",
+    backgroundColor: "#77c7ff",
+    color: "#1a1a1a",
+    textDecoration: "none",
+    borderRadius: "6px",
+    fontWeight: "bold",
+    boxShadow: "0 0 10px rgba(119,199,255,0.45)",
+  },
+
+  backButton: {
+    width: "100%",
+    padding: "12px",
+    fontSize: "15px",
+    backgroundColor: "rgba(255,255,255,0.15)",
+    color: "white",
+    border: "1px solid rgba(255,255,255,0.25)",
+    borderRadius: "6px",
+    cursor: "pointer",
+    marginTop: "22px",
   },
 }
