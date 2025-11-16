@@ -102,11 +102,11 @@ export default function Home() {
               placeholder="Enter phone number"
               style={styles.input}
               onKeyPress={(e) => e.key === 'Enter' && verifyPhone()}
-              disabled={user !== null}
+              disabled={user !== null && phoneVerified}
             />
             {error && <p style={styles.error}>{error}</p>}
-            <button onClick={verifyPhone} style={styles.primaryButton} disabled={user !== null}>
-              {user ? 'Verifying...' : 'Verify & Continue'}
+            <button onClick={verifyPhone} style={styles.primaryButton} disabled={user !== null && phoneVerified}>
+              {user ? 'Verify' : 'Verify & Continue'}
             </button>
           </div>
         ) : (
